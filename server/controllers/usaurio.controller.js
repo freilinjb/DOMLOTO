@@ -47,7 +47,7 @@ module.exports = {
     console.log('body: ', body);
     getUserByEmail(body.usuario, (err, results) => {
 
-      console.log('results: ', results.clave);
+      // console.log('results: ', results.clave);
       if (err) {
         console.log(err);
       }
