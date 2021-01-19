@@ -1,3 +1,4 @@
+const { genSaltSync, hashSync } = require('bcrypt');
 const pool = require('../config/database');
 
 module.exports = {
@@ -7,19 +8,39 @@ module.exports = {
         });
     },
     crearUsuario: (data, callback) => {
-        console.log(data);
         pool.query(
-            'CALL registroUsuario (?,?,?,?,?)',
+            'CALL registroUsuario (?,?,?,?,?,?,?,?)',
             [
+                data.nombre,
+                data.apellido,
+                data.idSexo,
                 data.usuario,
                 data.clave,
-                data.idTipo,
+                data.idTipoUsuario,
                 data.correo,
                 data.telefono
             ],
             (error, result, fields) => {
+                console.log(error);
                 return error ? callback(error) : callback(null, result);
             }
-        )
+        );
+
+    },
+
+    getUserByEmail: (usuario, callback) => {
+        // console.log('usuario: ', usuario);
+
+        pool.query(
+            `SELECT idUsuario,usuario,clave FROM usuario WHERE usuario = ?`,
+            [usuario],
+            (error, results, fields) => {
+                if(error) {
+                    callback(error);
+                }
+                // console.log('resultado: ', results);
+                return callback(null, results[0]);
+            }
+        );
     }
 }

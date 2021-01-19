@@ -1,5 +1,10 @@
-const { getUsuarios, crearUsuario } = require("../models/usuario.model");
-const { sign, compareSync, hashSync, genSaltSync } = require('bcrypt');
+const {
+  getUsuarios,
+  crearUsuario,
+  getUserByEmail,
+} = require("../models/usuario.model");
+const { compareSync, hashSync, genSaltSync } = require("bcrypt");
+const { sign } = require('jsonwebtoken');
 
 module.exports = {
   registrarUsuario: (req, res) => {
@@ -7,17 +12,20 @@ module.exports = {
     const salt = genSaltSync(10);
     body.clave = hashSync(body.clave, salt);
     crearUsuario(body, (err, result) => {
-      if(err) {
+      if (err) {
         console.log(err);
         return res.status(500).json({
           success: 0,
-          message: 'Error en la conexión',
+          message: "Error en la conexión",
         });
       }
 
+      console.log('result: ', result);
+
+
       return res.status(200).json({
         success: 1,
-        data: result
+        data: result,
       });
     });
   },
@@ -29,39 +37,52 @@ module.exports = {
       return res.json({
         success: 1,
         data: results,
-        msg: 'mensaje correcto'
+        msg: "mensaje correcto",
       });
     });
   },
 
   login: (req, res) => {
     const body = req.body;
-    getUsuarioPorEmail(body.email, (err, result) => {
-      return error ? console.log(err) : res.json({success: 0, data: 'Email o contraseña invelida'});
+    console.log('body: ', body);
+    getUserByEmail(body.usuario, (err, results) => {
+
+      console.log('results: ', results.clave);
+      if (err) {
+        console.log(err);
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          data: "Invalid email or password",
+        });
+      }
+      const result = compareSync(body.clave, results.clave);
+      console.log("result: ", result);
+      if (result) {
+        results.password = undefined;
+        const jsontoken = sign({ result: results }, "qw1234", {
+          expiresIn: "1h",
+        });
+        const { idUsuario, usuario } = results;
+        return res.json({
+          success: 1,
+          message: "login successfully",
+          token: jsontoken,
+          data: {
+            idUsuario,
+            usuario
+          },
+        });
+      } else {
+
+        // console.log('resulktado: ', jsontoken);
+
+        return res.json({
+          success: 0,
+          data: "Invalid email or password",
+        });
+      }
     });
-
-    const resultado = compareSync(body.clave, result.clave);
-    console.log('resultado: ', resultado);
-
-    if(resultado) {
-      resultado.clave = undefined;
-      const jsontoken = sign({resultado: resultado}, 'qw1234',{
-        expiresIn: '1h'
-      });
-
-      return res.json({
-        success: 1,
-        message: 'Login successfully',
-        token: jsontoken,
-        data: resultado
-      });
-    } else {
-      return res.json({
-        success: 0,
-        data: 'Email o contraseña invalida'
-      });
-    }
-
-    
-  }
+  },
 };
