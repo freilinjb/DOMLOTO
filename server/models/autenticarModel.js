@@ -8,6 +8,7 @@ module.exports = {
         });
     },
     crearUsuario: (data, callback) => {
+
         pool.query(
             'CALL registroUsuario (?,?,?,?,?,?,?,?)',
             [
@@ -40,6 +41,26 @@ module.exports = {
                 }
                 // console.log('resultado: ', results);
                 return callback(null, results[0]);
+            }
+        );
+    },
+    getTelephone: (telephone, callback) => {
+        validado = pool.query(
+            `SELECT * FROM telefono t WHERE t.telefono = ?`,
+            [telephone],
+            (error, result, fields) => {
+                return  error ? callback(error) : callback(null, result);
+            }
+        );
+    },
+    getEmail: (correo, callback) => {
+        console.log(telefono);
+
+        pool.query(
+            `SELECT * FROM correo c WHERE c.correo = ?`,
+            [correo],
+            (error, result, fields) => {
+                return  error ? callback(error) : callback(null, result);
             }
         );
     }

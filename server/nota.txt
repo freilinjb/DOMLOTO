@@ -1,0 +1,12 @@
+Registrar usuario
+
+{
+    "nombre": "Freilin Jose",
+    "apellido": "Jerez Brito",
+    "idSexo": "1",
+    "usuario": "freilinjb",
+    "clave": "1423",
+    "idTipoUsuario": "idTipoUsuario",
+    "correo": "freilinjb@gmail.com",
+    "telefono": "849-999-11111"
+}

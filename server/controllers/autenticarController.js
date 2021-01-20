@@ -2,15 +2,21 @@ const {
   getUsuarios,
   crearUsuario,
   getUserByEmail,
-} = require("../models/usuario.model");
+  getTelephone,
+  getEmail,
+  validarExistencia
+} = require("../models/autenticarModel");
 const { compareSync, hashSync, genSaltSync } = require("bcrypt");
-const { sign } = require('jsonwebtoken');
+const { sign } = require("jsonwebtoken");
 
 module.exports = {
+    
   registrarUsuario: (req, res) => {
+
     const body = req.body;
     const salt = genSaltSync(10);
     body.clave = hashSync(body.clave, salt);
+    
     crearUsuario(body, (err, result) => {
       if (err) {
         console.log(err);
@@ -20,15 +26,13 @@ module.exports = {
         });
       }
 
-      console.log('result: ', result);
-
-
       return res.status(200).json({
         success: 1,
         data: result,
       });
     });
   },
+
   getUsuarios: (req, res) => {
     getUsuarios((err, results) => {
       if (err) {
@@ -44,10 +48,9 @@ module.exports = {
 
   login: (req, res) => {
     const body = req.body;
-    console.log('body: ', body);
+    console.log("body: ", body);
     getUserByEmail(body.usuario, (err, results) => {
-
-      console.log('results: ', results);
+      // console.log('results: ', results.clave);
       if (err) {
         console.log(err);
       }
@@ -64,7 +67,7 @@ module.exports = {
         const jsontoken = sign({ result: results }, "qw1234", {
           expiresIn: "1h",
         });
-        const { idUsuario, usuario,nombre, apellido, correo,tipoUsuario } = results;
+        const { idUsuario, usuario } = results;
         return res.json({
           success: 1,
           message: "login successfully",
@@ -72,14 +75,9 @@ module.exports = {
           data: {
             idUsuario,
             usuario,
-            nombre,
-            apellido,
-            correo,
-            tipoUsuario
           },
         });
       } else {
-
         // console.log('resulktado: ', jsontoken);
 
         return res.json({
