@@ -32,8 +32,8 @@ module.exports = {
         // console.log('usuario: ', usuario);
 
         pool.query(
-            `SELECT * FROM usuario_v uv WHERE uv.usuario = ?`,
-            [usuario],
+            `SELECT * FROM usuario_v uv WHERE uv.usuario = ? OR uv.correo = ?`,
+            [usuario, usuario],
             (error, results, fields) => {
                 if(error) {
                     callback(error);

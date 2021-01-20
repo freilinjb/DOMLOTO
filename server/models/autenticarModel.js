@@ -31,15 +31,14 @@ module.exports = {
 
     getUserByEmail: (usuario, callback) => {
         // console.log('usuario: ', usuario);
-
         pool.query(
-            `SELECT * FROM usuario_v uv WHERE uv.usuario = ?`,
-            [usuario],
+            `SELECT * FROM usuario_v uv WHERE uv.usuario = ? OR uv.correo = ?`,
+            [usuario, usuario],
             (error, results, fields) => {
                 if(error) {
                     callback(error);
                 }
-                // console.log('resultado: ', results);
+                // console.log('usuario: ', results);
                 return callback(null, results[0]);
             }
         );
