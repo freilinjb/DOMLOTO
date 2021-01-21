@@ -55,7 +55,6 @@ module.exports = {
     },
     getEmail: async (correo, callback) => {
         console.log('correo: ', correo);
-        console.log('checkToken: ', checkToken);
         pool.query(
             `SELECT idUsuario,usuario,nombre, apellido, sexo, tipoUsuario, correo, telefono FROM usuario_v uv WHERE uv.usuario = ? OR uv.correo = ?`,
             [correo, correo],

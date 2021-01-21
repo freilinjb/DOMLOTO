@@ -50,8 +50,8 @@ module.exports = {
     console.log(req.body);
     let token = req.headers['authorization'];
     token = token.replace("Bearer ", "");
-    console.log('TOKEN: ', verify(token,"qw1234"));
-    console.log('token: ', token.replace("Bearer ", ""));
+    console.log('idUsuario: ', verify(token,"qw1234").result.idUsuario);
+    console.log('token: ', token);
     getEmail(req.body.correo,(err, results) => {
       if (err) {
         return console.log(err);
