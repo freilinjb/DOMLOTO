@@ -1,3 +1,4 @@
+const { checkToken } = require('../auth/token_validation');
 const { genSaltSync, hashSync } = require('bcrypt');
 const pool = require('../config/database');
 
@@ -52,15 +53,19 @@ module.exports = {
             }
         );
     },
-    getEmail: (correo, callback) => {
-        console.log(telefono);
-
+    getEmail: async (correo, callback) => {
+        console.log('correo: ', correo);
+        console.log('checkToken: ', checkToken);
         pool.query(
-            `SELECT * FROM correo c WHERE c.correo = ?`,
-            [correo],
-            (error, result, fields) => {
-                return  error ? callback(error) : callback(null, result);
+            `SELECT idUsuario,usuario,nombre, apellido, sexo, tipoUsuario, correo, telefono FROM usuario_v uv WHERE uv.usuario = ? OR uv.correo = ?`,
+            [correo, correo],
+            (error, results, fields) => {
+                if(error) {
+                    callback(error);
+                }
+                // console.log('usuario: ', results);
+                return callback(null, results[0]);
             }
         );
-    }
+    },
 }
