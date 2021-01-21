@@ -19,6 +19,6 @@ app.use(bodyParser.json());
 
 //Router
 // app.use("/api/usuario", useRouter);
-app.use("/api/", router);
+app.use("/api", router);
 
 module.exports = app;

@@ -35,7 +35,7 @@ module.exports = {
             `SELECT * FROM usuario_v uv WHERE uv.usuario = ? OR uv.correo = ?`,
             [usuario, usuario],
             (error, results, fields) => {
-                if(error) {
+                if (error) {
                     callback(error);
                 }
                 // console.log('resultado: ', results);
