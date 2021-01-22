@@ -1,8 +1,13 @@
 const pool = require('../config/database');
 const { verify } = require('jsonwebtoken');
 
-exports.resgistrarEmpleado = (data, callback) => {
-    pool.query(`CALL registrarEmpleados (?,?,?,?,?,?,?,?)`,
+
+exports.registrarEmpleado = (data, callback) => {
+
+    console.log('resultado: ', data);
+    console.log('idUsuario: ', verify(data.token,"qw1234").result.idUsuario);
+
+    pool.query(`CALL registrarEmpleado (?,?,?,?,?,?,?,?,?,?,?,?)`,
     [
         data.idUsuarioMaestro,
         data.nombre,
@@ -23,6 +28,6 @@ exports.resgistrarEmpleado = (data, callback) => {
     });
 }
 
-exports.getLoterias = (callback) => {
-    pool.query();
-}
+// exports.getLoterias = (callback) => {
+//     pool.query();
+// }

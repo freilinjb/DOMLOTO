@@ -10,3 +10,19 @@ Registrar usuario
     "correo": "freilinjb@gmail.com",
     "telefono": "849-999-11111"
 }
+
+Registrar empleado
+{
+    "idUsuarioMaestro": "30",
+    "nombre": "Freilin Jose",
+    "apellido": "Freilin Jose",
+    "idSexo": "1",
+    "usuario": "raulm1t",
+    "clave": "1423",
+    "idTipoUsuario": "1",
+    "correo": "raulmt@gmail.com",
+    "telefono": "849-999-5555",
+    "idProvincia": "1",
+    "idCiudad": "1",
+    "direccion": "Villa Progreso, La Herradura"
+}
