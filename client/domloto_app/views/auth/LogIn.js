@@ -8,14 +8,14 @@ import {
   Input,
   Form,
   Item,
-  Label,
-  Toast,
+  Label
 } from 'native-base';
+import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 import globalStyles from '../../style/globa';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const LogIn = (props) => {
+const LogIn = ({ navigation }) => {
   //State del formulario
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,40 +23,49 @@ const LogIn = (props) => {
   const [mensaje, setMensaje] = useState(null);
 
   //React Navigation
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
-  const handleSubmit = async (props)=>{
-    fetch("http://192.168.0.102:4000/api/user/login",{
-      method:"POST",
+  const handleSubmit = async (props) => {
+    if (email === '' || password === '') {
+      setMensaje('Todos los campos son obligatorios');
+      return;
+    }
+
+    fetch('http://192.168.0.102:4000/api/auth/LogIn', {
+      method: 'POST',
       headers: {
-       'Content-Type': 'application/json'
-     },
-     body:JSON.stringify({
-       "usuario":email,
-       "clave":password
-     })
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        usuario: email,
+        clave: password,
+      }),
     })
-    .then(res=>res.json())
-    .then(async (data)=>{
-           try {
-             console.log('Data: ', data);
-             await AsyncStorage.setItem('token',data.token)
-             props.navigation.replace("home")
-           } catch (e) {
-             console.log("error hai",e)
-              Alert(e)
-           }
-    })
- }
+      .then((res) => res.json())
+      .then(async (data) => {
+        try {
+          console.log('Data: ', data);
 
-  //Mostrar mensaje al usuario
-  const mostrarAlerta = () => {
-    Toast.show({
-      text:mensaje,
-      botonTexto: 'OK',
-      duration: 5000
-    });
-  }
+          if (data.success === 1) {
+            await AsyncStorage.setItem('token', data.token);
+            navigation.replace('MainTabScreen');
+            console.log('props: ', props);
+          } else if (data.success === 0) {
+            setMensaje(data.data);
+          }
+        } catch (error) {
+          console.log('error: ', error);
+        }
+      });
+  };
+
+  //Muestra un mensaje al usuario
+  // const mostrarAlerta = () => {
+  //   Toast.show({
+  //     text1: 'Hello',
+  //     text2: 'This is some something 👋'
+  //   });
+  // }
 
   return (
     <Container style={(globalStyles.contenedor, {backgroundColor: '#e84347'})}>
@@ -67,7 +76,7 @@ const LogIn = (props) => {
             <Label>Usuario o Correo</Label>
             <Input
               placeholder="Usuario o Correo"
-              onChangeText={(texto) => setEmail(texto.toLocaleLowerCase())}
+              onChangeText={(texto) => setEmail(texto)}
               value={email}
             />
           </Item>
@@ -91,7 +100,7 @@ const LogIn = (props) => {
 
         <Text
           style={globalStyles.enlace}
-          onPress={() => navigation.navigate('LeadingPage')}>
+          onPress={() => navigation.navigate('SignUp')}>
           Crear Cuenta
         </Text>
         {/* {mensaje && mostrarAlerta()} */}
