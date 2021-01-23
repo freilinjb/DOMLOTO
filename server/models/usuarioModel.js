@@ -1,15 +1,15 @@
 const pool = require('../config/database');
-const { verify } = require('jsonwebtoken');
+// const { verify } = require('jsonwebtoken');
 
 
 exports.registrarEmpleado = (data, callback) => {
 
-    console.log('resultado: ', data);
-    console.log('idUsuario: ', verify(data.token,"qw1234").result.idUsuario);
+    // const idUsuario = verify(data.token,"qw1234").result.idUsuario;
+    // console.log('idUsuario: ', idUsuario);
 
     pool.query(`CALL registrarEmpleado (?,?,?,?,?,?,?,?,?,?,?,?)`,
     [
-        data.idUsuarioMaestro,
+        data.idUsuario,
         data.nombre,
         data.apellido,
         data.idSexo,
@@ -22,10 +22,21 @@ exports.registrarEmpleado = (data, callback) => {
         data.idCiudad,
         data.direccion
     ],
-    (error, result, fiellds)  => {
+    (error, result, fields)  => {
         console.log(error);
         return error ? callback(error) : callback(null, result);
     });
+}
+
+exports.getEmpleados = (idUsuario, callback) => {
+    pool.query(`SELECT * FROM empleados_v`,
+    [idUsuario],(error, result, fields) => {
+        return error ? callback(error) : callback(null, result);
+    });
+}
+
+exports.sexo = (callback) => {
+    console.log('hola');
 }
 
 // exports.getLoterias = (callback) => {

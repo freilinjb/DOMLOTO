@@ -54,7 +54,7 @@ module.exports = {
       if (!results) {
         return res.json({
           success: 0,
-          data: "Invalid email or password",
+          message: "Invalid email or password",
         });
       }
       const result = compareSync(body.clave, results.clave);
@@ -84,7 +84,7 @@ module.exports = {
 
         return res.json({
           success: 0,
-          data: "Invalid email or password",
+          message: "Invalid email or password",
         });
       }
     });

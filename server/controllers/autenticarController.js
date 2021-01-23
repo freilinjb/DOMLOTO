@@ -1,117 +1,116 @@
-const {
-  getUsuarios,
-  crearUsuario,
-  getUserByEmail,
-  getTelephone,
-  getEmail
-} = require("../models/autenticarModel");
-const { verify } = require('jsonwebtoken');
+const {getUsuarios,crearUsuario,getUserByEmail} = require("../models/autenticarModel");
+const aut = require("../models/autenticarModel");
+const helpers = require('../helper');
+
+const { verify } = require("jsonwebtoken");
 const { compareSync, hashSync, genSaltSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 
-module.exports = {
-    
-  registrarUsuario: (req, res) => {
+exports.registrarUsuario = (req, res) => {
+  const body = req.body;
+  const salt = genSaltSync(10);
+  body.clave = hashSync(body.clave, salt);
 
-    const body = req.body;
-    const salt = genSaltSync(10);
-    body.clave = hashSync(body.clave, salt);
-    
-    crearUsuario(body, (err, result) => {
+  crearUsuario(body, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: 0,
+        message: "Error en la conexión",
+      });
+    }
+
+    return res.status(200).json({
+      success: 1,
+      data: result,
+    });
+  });
+};
+
+exports.getUsuarios = (req, res) => {
+  getUsuarios((err, results) => {
+    if (err) {
+      return console.log(err);
+    }
+    return res.json({
+      success: 1,
+      data: results,
+      msg: "mensaje correcto",
+    });
+  });
+};
+
+exports.login = (req, res) => {
+  const body = req.body;
+  // console.log("body: ", body);
+  getUserByEmail(body.usuario, (err, results) => {
+    // console.log('results: ', results.clave);
+    if (err) {
+      console.log(err);
+    }
+    if (!results) {
+      return res.json({
+        success: 0,
+        message: "Invalid email or password",
+      });
+    }
+    const result = compareSync(body.clave, results.clave);
+    // console.log("result: ", result);
+    if (result) {
+      results.password = undefined;
+      const jsontoken = sign({ result: results }, "qw1234", {
+        expiresIn: "1h",
+      });
+      const { idUsuario, usuario } = results;
+      return res.json({
+        success: 1,
+        message: "login successfully",
+        token: jsontoken,
+        auth: true,
+        data: {
+          idUsuario,
+          usuario,
+        },
+      });
+    } else {
+      // console.log('resulktado: ', jsontoken);
+      return res.json({
+        success: 0,
+        message: "Invalid email or password",
+      });
+    }
+  });
+};
+
+exports.getUsuarioAutenticado = (req, res) => {
+  console.log("authorization: ",req.headers["authorization"]);
+  console.log('helpers: ', helpers.getUserByToken(req.headers["authorization"]));
+  // console.log("res: ",res);
+
+  if (req.idUsuario !== null) {
+    let token = req.headers["authorization"];
+    token = token.replace("Bearer ", "");
+    const idUsuario = verify(token, "qw1234").result.idUsuario;
+
+    aut.getUsuarioAutenticado(idUsuario, (err, resultado) => {
       if (err) {
         console.log(err);
-        return res.status(500).json({
+        res.status(500).json({
           success: 0,
-          message: "Error en la conexión",
+          message: "Error con la conexión",
         });
       }
-
+      console.log("resultado: ", resultado);
       return res.status(200).json({
         success: 1,
-        data: result,
+        data: resultado,
       });
     });
-  },
 
-  getUsuarios: (req, res) => {
-    getUsuarios((err, results) => {
-      if (err) {
-        return console.log(err);
-      }
-      return res.json({
-        success: 1,
-        data: results,
-        msg: "mensaje correcto",
-      });
+  } else {
+    return res.status(500).json({
+      success: 0,
+      data: "El ID de usuario autenticado es obligatorio",
     });
-  },
-
-  getEmail2: (req, res) => {
-    console.log(req.body);
-    let token = req.headers['authorization'];
-    token = token.replace("Bearer ", "");
-    console.log('idUsuario: ', verify(token,"qw1234").result.idUsuario);
-    console.log('token: ', token);
-    getEmail(req.body.correo,(err, results) => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log('result: ', results);
-
-      return res.json({
-        success: 1,
-        data: results,
-        msg: "mensaje correcto",
-      });
-    });
-  },
-
-
-
-  login: (req, res) => {
-    const body = req.body;
-    console.log("body: ", body);
-    getUserByEmail(body.usuario, (err, results) => {
-      // console.log('results: ', results.clave);
-      if (err) {
-        console.log(err);
-      }
-      if (!results) {
-        return res.json({
-          success: 0,
-          data: "Invalid email or password",
-        });
-      }
-      const result = compareSync(body.clave, results.clave);
-      console.log("result: ", result);
-      if (result) {
-        results.password = undefined;
-        const jsontoken = sign({ result: results }, "qw1234", {
-          expiresIn: "1h",
-        });
-        const { idUsuario, usuario, nombre, apellido, correo, telefono } = results;
-        return res.json({
-          success: 1,
-          message: "login successfully",
-          token: jsontoken,
-          auth: true,
-          data: {
-            idUsuario,
-            usuario,
-            correo,
-            nombre,
-            apellido,
-            telefono
-          },
-        });
-      } else {
-        // console.log('resulktado: ', jsontoken);
-
-        return res.json({
-          success: 0,
-          data: "Invalid email or password",
-        });
-      }
-    });
-  },
+  }
 };

@@ -7,6 +7,7 @@ module.exports = {
             token = token.slice(7);
             verify(token, "qw1234", (err, decoded) =>{
                 if(err) {
+                    console.log('Invalid token');
                     res.json({
                         success: 0,
                         message: "Invalid token"
@@ -17,6 +18,7 @@ module.exports = {
                 
             });
         } else {
+            console.log('Access denied! unautorized user');
             res.json({
                 success: 0,
                 message: "Access denied! unautorized user"
