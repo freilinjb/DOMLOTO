@@ -35,6 +35,7 @@ exports.getEmpleados = (idUsuario, callback) => {
     });
 }
 
+
 exports.sexo = (callback) => {
     console.log('hola');
 }

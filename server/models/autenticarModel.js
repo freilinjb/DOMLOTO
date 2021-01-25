@@ -74,7 +74,7 @@ exports.getUsuarioAutenticado = async (idUsuario, callback) => {
     `SELECT * FROM usuario_v uv WHERE uv.idUsuario = ?`,
     [idUsuario],
     (error, result, fields) => {
-      return error ? callback(error) : callback(null, result);
+      return error ? callback(error) : callback(null, result[0]);
     }
   );
 };
