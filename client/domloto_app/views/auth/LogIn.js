@@ -48,7 +48,7 @@ const LogIn = ({ navigation }) => {
 
           if (data.success === 1) {
             await AsyncStorage.setItem('token', data.token);
-            navigation.replace('MainTabScreen');
+            // navigation.replace('MainTabScreen');
             console.log('props: ', props);
           } else if (data.success === 0) {
             setMensaje(data.data);
