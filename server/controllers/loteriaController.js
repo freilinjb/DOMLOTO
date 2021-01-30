@@ -5,6 +5,73 @@ exports.Hola = function() {
     loteria.getLoterias();
 }
 
+exports.registrarLoteria = (req, res) => {
+
+    console.log('req: body: ', req.body);
+
+    const { idUsuario } = req.body;
+
+    if(idUsuario === '') {
+        return res.status(500).json({
+            message: 1,
+            message: "usuario no puede estar vacio",
+        });
+    }
+
+    // const numeros = req.body.numeros[0].numeros;
+
+    // const hola = numeros.split('-').filter((c, i, a)=>a.indexOf(c) !== i).length;
+    // const longitud = numeros.split("-").length;
+    let tipoJuego = null;
+
+    const jugadas = req.body.numeros;
+    const jugadasTemp = [];
+    if(jugadas.length > 0) {
+        jugadas.forEach((jugada, index) => {
+            console.log('jugada: ', jugada);
+
+            const { idJuego, numeros } = jugada;
+
+            if(numeros === '' || idJuego === '') {
+                console.log('ejecuto breack inicio');
+                return res.status(500).json({
+                    message: 1,
+                    message: "usuario vacio",
+                });
+            }
+
+            let tipoJugada = numeros.split('-').length;
+
+            switch (tipoJugada) {
+                case 1: tipoJuego = "PALE";
+                    break;
+        
+                case 2: tipoJuego = "SUPER PALE";
+                    break;
+                
+                case 3: tipoJuego = "TRIPLETA";
+                    break;
+            
+                default: 
+                    break;
+            }
+
+            jugadasTemp.push({idJuego, numeros, tipoJuego});
+        });
+
+        return res.status(200).json({
+            message: 0,
+            // message: req.body,
+            jugadas: jugadasTemp
+        });
+        
+    } else {
+        return res.status(500).json({
+            message: 1,
+            message: "No debe enviar arreglo vacios",
+        });
+    }
+}
 
 exports.getJuegosDisponibles = (req, res) => {
     const idUsuario = helper.getUserByToken(req.headers['authorization']);
@@ -29,15 +96,16 @@ exports.getJuegosDisponibles = (req, res) => {
             loterias = loterias.filter(unique);
 
             let temp = [];
-            loterias.forEach((loteria) => {
+            loterias.forEach((loteria, index) => {
                 resultados.forEach((key)=> {
                     // console.log('key: ', key);
                     if(loteria == key.loteria) {
                         temp.push({
-                            idJuego: key.idJuego,
+                            id: key.idJuego,
                             juego: key.idJujuegoego,
                             urlLogo: key.urlLogo,
                             acronimo: key.acronimo,
+                            name: key.juego,
                             numeros: key.numeros,
                             loteria: key.loteria,
                             horario: key.horario,
@@ -49,7 +117,7 @@ exports.getJuegosDisponibles = (req, res) => {
                 });
 
                 if(temp.length > 0) {
-                    juegos.push({loteria: loteria, juegos: temp});
+                    juegos.push({name:loteria, id: (index+1), juegos: temp});
                     temp = [];
                 }
             });

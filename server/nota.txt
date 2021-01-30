@@ -26,3 +26,14 @@ Registrar empleado
     "idCiudad": "1",
     "direccion": "Villa Progreso, La Herradura"
 }
+
+#Registrar Loteria
+{
+    "idUsuario": "1",
+    "numeros": [
+        {
+            "idJuego": "1",
+            "numeros": "15-10"
+        }
+    ]
+}
