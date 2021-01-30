@@ -1,4 +1,6 @@
-const pool = require('../config/database');
+// const pool = require('../config/database');
+const db = require('../config/database');
+
 // const { verify } = require('jsonwebtoken');
 
 
@@ -7,7 +9,7 @@ exports.registrarEmpleado = (data, callback) => {
     // const idUsuario = verify(data.token,"qw1234").result.idUsuario;
     // console.log('idUsuario: ', idUsuario);
 
-    pool.query(`CALL registrarEmpleado (?,?,?,?,?,?,?,?,?,?,?,?)`,
+    db.connection.query(`CALL registrarEmpleado (?,?,?,?,?,?,?,?,?,?,?,?)`,
     [
         data.idUsuario,
         data.nombre,

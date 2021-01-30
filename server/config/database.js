@@ -1,4 +1,5 @@
 const { createPool } = require("mysql");
+const mysql = require('mysql');
 
 const pool = createPool({
     canRetry: true,
@@ -11,6 +12,16 @@ const pool = createPool({
     waitForConnections: true,
     queueLimit: 0
 });
+
+exports.connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'domloto',
+    port: 3306,
+    waitForConnections: true,
+    queueLimit: 0
+  });
 
 // console.log('pool: ', pool);
 // Attempt to catch disconnects 
@@ -26,4 +37,7 @@ pool.on('connection', function(connection) {
     });
 });
 
-module.exports = pool;
+
+// exports.hola = (hola, callback)
+// module.exports = pool;
+// module.exports = connection;

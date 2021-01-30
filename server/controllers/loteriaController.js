@@ -6,9 +6,6 @@ exports.Hola = function() {
 }
 
 exports.registrarLoteria = (req, res) => {
-
-    console.log('req: body: ', req.body);
-
     const { idUsuario } = req.body;
 
     if(idUsuario === '') {
@@ -25,14 +22,15 @@ exports.registrarLoteria = (req, res) => {
     let tipoJuego = null;
 
     const jugadas = req.body.numeros;
-    const jugadasTemp = [];
+    const numJugados = [];
+    console.log('numeros: ',  req.body.numeros);
     if(jugadas.length > 0) {
         jugadas.forEach((jugada, index) => {
-            console.log('jugada: ', jugada);
+            // console.log('jugada: ', jugada);
 
-            const { idJuego, numeros } = jugada;
+            const { idJuego, numeros, monto } = jugada;
 
-            if(numeros === '' || idJuego === '') {
+            if(numeros === '' || idJuego === '' || monto === '') {
                 console.log('ejecuto breack inicio');
                 return res.status(500).json({
                     message: 1,
@@ -56,14 +54,31 @@ exports.registrarLoteria = (req, res) => {
                     break;
             }
 
-            jugadasTemp.push({idJuego, numeros, tipoJuego});
+            numJugados.push({idJuego, numeros, tipoJuego, monto});
         });
 
-        return res.status(200).json({
-            message: 0,
-            // message: req.body,
-            jugadas: jugadasTemp
+        const datos = [];
+        datos.push({idUsuario, jugadas: numJugados});
+
+        loteria.registrarTicket(datos, (err, resultado) => {
+            if(err) {
+                console.log('error: ', err);
+                res.status(500).json({
+                    success: 0,
+                    message: 'Error con la conexión'
+                });
+            }
+
+            console.log('resultados: ', datos);
+
+            return res.status(200).json({
+                success: 1,
+                message: "Registro realizado exitosamente",
+                datos: resultado
+            });
         });
+
+        
         
     } else {
         return res.status(500).json({

@@ -6,6 +6,7 @@ module.exports = {
         pool.query(`SELECT * FROM usuario`,[], (error, result, fields) => {
             return error ? callback(error) : callback(null, result);
         });
+
     },
     crearUsuario: (data, callback) => {
         pool.query(

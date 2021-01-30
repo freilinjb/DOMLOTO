@@ -1,6 +1,7 @@
 const { checkToken } = require("../auth/token_validation");
 const { genSaltSync, hashSync } = require("bcrypt");
-const pool = require("../config/database");
+// const pool = require("../config/database");
+const db = require("../config/database");
 
 exports.getUsuarios = (callback) => {
   pool.query(`SELECT * FROM usuario`, [], (error, result, fields) => {
@@ -9,7 +10,7 @@ exports.getUsuarios = (callback) => {
 }
 
 exports.crearUsuario = (data, callback) => {
-  pool.query(
+  db.connection.query(
     "CALL registroUsuario (?,?,?,?,?,?,?,?)",
     [
       data.nombre,
@@ -30,7 +31,7 @@ exports.crearUsuario = (data, callback) => {
 
 exports.getUserByEmail = (usuario, callback) => {
   console.log("usuario: ", usuario);
-  pool.query(
+  db.connection.query(
     `SELECT * FROM usuario_v uv WHERE uv.usuario = ? OR uv.correo = ?`,
     [usuario, usuario],
     (error, results, fields) => {
@@ -44,7 +45,7 @@ exports.getUserByEmail = (usuario, callback) => {
 };
 
 exports.getTelephone = (telephone, callback) => {
-  validado = pool.query(
+  validado = db.connection.query(
     `SELECT * FROM telefono t WHERE t.telefono = ?`,
     [telephone],
     (error, result, fields) => {
