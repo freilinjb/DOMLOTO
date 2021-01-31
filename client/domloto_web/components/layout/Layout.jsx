@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 
 import Header from "./Header";
 import Navbar from "./Navbar";
@@ -6,27 +7,85 @@ import Aside from "./Aside";
 import Footer from "./Footer";
 import Breadcrumb from "./Breadcrumb";
 
-const Layout = () => {
+
+const Layout = (props) => {
   return (
     <>
-      <Header />
-      <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-        <div class="wrapper">
+      {/* <Header /> */}
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+
+        <title>AdminLTE 3 | Dashboard 2</title>
+
+        {/* <!-- Font Awesome Icons --> */}
+        <link
+          rel="stylesheet"
+          href="/static/plugins/fontawesome-free/css/all.min.css"
+        />
+        {/* <!-- overlayScrollbars --> */}
+        <link
+          rel="stylesheet"
+          href="/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
+        />
+        {/* <!-- Theme style --> */}
+        <link rel="stylesheet" href="/static/dist/css/adminlte.min.css" />
+        {/* <!-- Google Font: Source Sans Pro --> */}
+        <link
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+          rel="stylesheet"
+        />
+        <script src="/static/index.js"></script>
+      </Head>
+
+      <div className="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+        <div className="wrapper">
           <Navbar />
 
           <Aside />
           {/* <!-- Content Wrapper. Contains page content --> */}
-          <div class="content-wrapper">
-            <Breadcrumb />
+          <div className="content-wrapper">
+            <Breadcrumb paginaTitulo={props.paginaTitulo}/>
+            {props.children}
           </div>
         </div>
         {/* <!-- Control Sidebar --> */}
-        <aside class="control-sidebar control-sidebar-dark">
+        <aside className="control-sidebar control-sidebar-dark">
           {/* <!-- Control sidebar content goes here --> */}
         </aside>
         {/* <!-- /.control-sidebar --> */}
-        <Footer/>
-      </body>
+        <Footer />
+
+        {/* SCRIPT */}
+        {/* <!-- ./wrapper -->
+
+          <!-- REQUIRED SCRIPTS -->
+          <!-- jQuery --> */}
+        <script src="static/plugins/jquery/jquery.min.js"></script>
+        {/* <!-- Bootstrap --> */}
+        <script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        {/* <!-- overlayScrollbars --> */}
+        <script src="static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        {/* <!-- AdminLTE App --> */}
+        <script src="static/dist/js/adminlte.js"></script>
+
+        {/* <!-- OPTIONAL SCRIPTS --> */}
+        <script src="static/dist/js/demo.js"></script>
+
+        {/* <!-- PAGE PLUGINS --> */}
+        {/* <!-- jQuery Mapael --> */}
+        <script src="static/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+        <script src="static/plugins/raphael/raphael.min.js"></script>
+        <script src="static/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+        <script src="static/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+        {/* <!-- ChartJS --> */}
+        <script src="static/plugins/chart.js/Chart.min.js"></script>
+
+        {/* <!-- PAGE SCRIPTS --> */}
+        {/* <script src="static/dist/js/pages/dashboard.js"></script> */}
+        {/* END SCRIPT */}
+      </div>
     </>
   );
 };

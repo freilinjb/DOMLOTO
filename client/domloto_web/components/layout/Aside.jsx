@@ -7,10 +7,9 @@ const Aside = () => {
         {/* <!-- Brand Logo --> */}
         <a href="index3.html" className="brand-link">
           <img
-            src="dist/img/AdminLTELogo.png"
+            src="static/dist/img/AdminLTELogo.png"
             alt="AdminLTE Logo"
             className="brand-image img-circle elevation-3"
-            style="opacity: .8"
           />
           <span className="brand-text font-weight-light">AdminLTE 3</span>
         </a>
@@ -21,7 +20,7 @@ const Aside = () => {
           <div className="user-panel mt-3 pb-3 mb-3 d-flex">
             <div className="image">
               <img
-                src="dist/img/user2-160x160.jpg"
+                src="static/dist/img/user2-160x160.jpg"
                 className="img-circle elevation-2"
                 alt="User Image"
               />
@@ -113,19 +112,28 @@ const Aside = () => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="pages/layout/fixed-sidebar.html" className="nav-link">
+                    <a
+                      href="pages/layout/fixed-sidebar.html"
+                      className="nav-link"
+                    >
                       <i className="far fa-circle nav-icon"></i>
                       <p>Fixed Sidebar</p>
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="pages/layout/fixed-topnav.html" className="nav-link">
+                    <a
+                      href="pages/layout/fixed-topnav.html"
+                      className="nav-link"
+                    >
                       <i className="far fa-circle nav-icon"></i>
                       <p>Fixed Navbar</p>
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="pages/layout/fixed-footer.html" className="nav-link">
+                    <a
+                      href="pages/layout/fixed-footer.html"
+                      className="nav-link"
+                    >
                       <i className="far fa-circle nav-icon"></i>
                       <p>Fixed Footer</p>
                     </a>
@@ -360,7 +368,10 @@ const Aside = () => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="pages/examples/e-commerce.html" className="nav-link">
+                    <a
+                      href="pages/examples/e-commerce.html"
+                      className="nav-link"
+                    >
                       <i className="far fa-circle nav-icon"></i>
                       <p>E-commerce</p>
                     </a>
@@ -372,13 +383,19 @@ const Aside = () => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="pages/examples/project-add.html" className="nav-link">
+                    <a
+                      href="pages/examples/project-add.html"
+                      className="nav-link"
+                    >
                       <i className="far fa-circle nav-icon"></i>
                       <p>Project Add</p>
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="pages/examples/project-edit.html" className="nav-link">
+                    <a
+                      href="pages/examples/project-edit.html"
+                      className="nav-link"
+                    >
                       <i className="far fa-circle nav-icon"></i>
                       <p>Project Edit</p>
                     </a>
@@ -440,7 +457,10 @@ const Aside = () => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="pages/examples/lockscreen.html" className="nav-link">
+                    <a
+                      href="pages/examples/lockscreen.html"
+                      className="nav-link"
+                    >
                       <i className="far fa-circle nav-icon"></i>
                       <p>Lockscreen</p>
                     </a>

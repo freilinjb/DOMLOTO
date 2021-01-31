@@ -1,23 +1,26 @@
 import React from "react";
 
-const Breadcrumb = () => {
+const Breadcrumb = ({paginaTitulo}) => {
   return (
     <>
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard v2</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
-            </ol>
+      <div className="content-header">
+        <div className="container-fluid">
+          <div className="row mb-2">
+            <div className="col-sm-6">
+              <h1 className="m-0 text-dark">{paginaTitulo}</h1>
+            </div>
+            <div className="col-sm-6">
+              <ol className="breadcrumb float-sm-right">
+                <li className="breadcrumb-item">
+                  <a href="#">Home</a>
+                </li>
+                <li className="breadcrumb-item active">Dashboard v2</li>
+              </ol>
+            </div>
           </div>
         </div>
       </div>
+      {/* // <!-- /.container-fluid --> */}
     </>
   );
 };
