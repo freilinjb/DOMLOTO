@@ -9,7 +9,7 @@ module.exports = {
             verify(token, "qw1234", (err, decoded) =>{
                 if(err) {
                     console.log('Invalid token');
-                    res.json({
+                    res.status(401).json({
                         success: 0,
                         message: "Invalid token"
                     });

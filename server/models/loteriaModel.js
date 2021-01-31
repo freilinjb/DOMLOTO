@@ -51,6 +51,7 @@ exports.registrarTicket = async (datos, callback) => {
       "INSERT INTO ticket(idUsuario) VALUES( ? )",
       [idUsuario],
       function (error, result, fields) {
+        const { insertId } = result;
         if (error) {
           return connection.rollback(() => {
             throw error;
@@ -85,9 +86,19 @@ exports.registrarTicket = async (datos, callback) => {
               });
             }
           );
+
+          
+
         });
+
+
         //Cuando ser inserta correctamente
-        return callback(null, result);
+        connection.query(
+          'SELECT * FROM ticket_v WHERE ticket = ?',[insertId],(error, result, fields) => {
+            return error ? callback(error) : callback(null, result);
+          }
+        );
+        // return callback(null, result);
       }
     );
   });
