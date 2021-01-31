@@ -4,7 +4,7 @@ const { genSaltSync, hashSync } = require("bcrypt");
 const db = require("../config/database");
 
 exports.getUsuarios = (callback) => {
-  pool.query(`SELECT * FROM usuario`, [], (error, result, fields) => {
+  db.connection.query(`SELECT * FROM usuario`, [], (error, result, fields) => {
     return error ? callback(error) : callback(null, result);
   });
 }
@@ -56,7 +56,7 @@ exports.getTelephone = (telephone, callback) => {
 
 exports.getEmail = async (correo, callback) => {
   console.log("correo: ", correo);
-  pool.query(
+  db.connection.query(
     `SELECT idUsuario,usuario,nombre, apellido, sexo, tipoUsuario, correo, telefono FROM usuario_v uv WHERE uv.usuario = ? OR uv.correo = ?`,
     [correo, correo],
     (error, results, fields) => {
@@ -71,7 +71,7 @@ exports.getEmail = async (correo, callback) => {
 
 exports.getUsuarioAutenticado = async (idUsuario, callback) => {
 
-  await pool.query(
+  await db.connection.query(
     `SELECT * FROM usuario_v uv WHERE uv.idUsuario = ?`,
     [idUsuario],
     (error, result, fields) => {

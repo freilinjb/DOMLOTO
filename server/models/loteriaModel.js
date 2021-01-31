@@ -3,7 +3,7 @@ const db = require("../config/database");
 
 exports.getLoterias = async () => {
   try {
-    const resultado = await pool.query(`SELECT * FROM juego`);
+    const resultado = await db.connection.query(`SELECT * FROM juego`);
 
     console.log(resultado);
   } catch (error) {
@@ -12,7 +12,7 @@ exports.getLoterias = async () => {
 };
 
 exports.getJuegosDisponibles = async (idUsuario, callback) => {
-  await pool.query(
+  await db.connection.query(
     `SELECT v.idJuego, 
         v.juego, 
         v.urlLogo, 
