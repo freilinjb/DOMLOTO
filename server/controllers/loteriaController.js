@@ -7,7 +7,7 @@ exports.Hola = function() {
 
 exports.registrarLoteria = (req, res) => {
     const { idUsuario } = req.body;
-
+    console.log('respuesta: ', req.body);
     if(idUsuario === '') {
         return res.status(500).json({
             message: 1,
