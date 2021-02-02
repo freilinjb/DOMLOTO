@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Head from "next/head";
 
 import Header from "./Header";
@@ -7,11 +7,16 @@ import Aside from "./Aside";
 import Footer from "./Footer";
 import Breadcrumb from "./Breadcrumb";
 
+import LayoutPrincipal from './LayoutPrincipal';
+
 
 const Layout = (props) => {
+  LayoutPrincipal(['hold-transition','sidebar-mini','layout-fixed','layout-navbar-fixed','layout-footer-fixed']);
+  // hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed
+  console.log('body:', Component);
   return (
     <>
-      {/* <Header /> */}
+            {/* <Header /> */}
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +24,6 @@ const Layout = (props) => {
 
         <title>AdminLTE 3 | Dashboard 2</title>
 
-        {/* <!-- Font Awesome Icons --> */}
         <link
           rel="stylesheet"
           href="/static/plugins/fontawesome-free/css/all.min.css"
@@ -39,14 +43,13 @@ const Layout = (props) => {
         <script src="/static/index.js"></script>
       </Head>
 
-      <div className="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+      <div className="">
         <div className="wrapper">
           <Navbar />
-
           <Aside />
           {/* <!-- Content Wrapper. Contains page content --> */}
           <div className="content-wrapper">
-            <Breadcrumb paginaTitulo={props.paginaTitulo}/>
+            <Breadcrumb/>
             {props.children}
           </div>
         </div>
@@ -71,7 +74,7 @@ const Layout = (props) => {
         <script src="static/dist/js/adminlte.js"></script>
 
         {/* <!-- OPTIONAL SCRIPTS --> */}
-        <script src="static/dist/js/demo.js"></script>
+        {/* <script src="static/dist/js/demo.js"></script> */}
 
         {/* <!-- PAGE PLUGINS --> */}
         {/* <!-- jQuery Mapael --> */}
