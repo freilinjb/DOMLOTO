@@ -88,6 +88,28 @@ exports.registrarLoteria = (req, res) => {
     }
 }
 
+exports.getTickets = (req, res) => {
+    console.log('tokenGGe: ',helper.getUserByToken(req.headers['authorization']));
+    const idUsuario = helper.getUserByToken(req.headers['authorization']);
+
+    loteria.getTickets(idUsuario, (err, resultados) => {
+        console.log('getTickets: ', resultados);
+
+        if(err) {
+            console.log('error: ', err);
+            return res.status(500).json({
+                success: 0,
+                message: 'Error en la conexion'
+            });
+        } else {
+            return res.status(200).json({
+                success: 1,
+                data: resultados
+            });
+        }
+    });
+}
+
 exports.getJuegosDisponibles = (req, res) => {
     const idUsuario = helper.getUserByToken(req.headers['authorization']);
     loteria.getJuegosDisponibles(idUsuario, (err, resultados) => {

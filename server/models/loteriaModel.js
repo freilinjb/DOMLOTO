@@ -31,16 +31,17 @@ exports.getJuegosDisponibles = async (idUsuario, callback) => {
   );
 };
 
+exports.getTickets = async (idUsuario, callback) => {
+  await db.connection.query(
+    `SELECT * FROM ticket_v tv WHERE tv.idUsuario = ?`,
+    [idUsuario],(error, resultados, fields) => {
+      return error ? callback(error) : callback(null, resultados);
+    }
+  );
+}
+
 exports.registrarTicket = async (datos, callback) => {
   const idUsuario = datos[0].idUsuario;
-  //   db.connection.query(
-  //     `INSERT INTO ticket(idUsuario) VALUES( ? )`,
-  //     [idUsuario],
-  //     function (error, results, fields) {
-  //       if (error) throw error;
-  //       callback(null, results);
-  //     }
-  //   );
 
   db.connection.beginTransaction(function (err) {
     if (err) {
