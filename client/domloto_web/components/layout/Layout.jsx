@@ -10,10 +10,10 @@ import Breadcrumb from "./Breadcrumb";
 import LayoutPrincipal from './LayoutPrincipal';
 
 
-const Layout = (props) => {
+const Layout = (props, { bodyClass }) => {
   LayoutPrincipal(['hold-transition','sidebar-mini','layout-fixed','layout-navbar-fixed','layout-footer-fixed']);
   // hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed
-  console.log('body:', Component);
+  // console.log('body:', Component);
   return (
     <>
             {/* <Header /> */}

@@ -33,7 +33,16 @@ exports.getJuegosDisponibles = async (idUsuario, callback) => {
 
 exports.getTickets = async (idUsuario, callback) => {
   await db.connection.query(
-    `SELECT * FROM ticket_v tv WHERE tv.idUsuario = ?`,
+    `SELECT * FROM tickets_v tv WHERE tv.idUsuario = ?`,
+    [idUsuario],(error, resultados, fields) => {
+      return error ? callback(error) : callback(null, resultados);
+    }
+  );
+}
+
+exports.getTicketsResumen = async (idUsuario, callback) => {
+  await db.connection.query(
+    `SELECT ticket,idUsuario, fecha,hora, cantidad,TRIM(estado) AS estado FROM ticket_v v WHERE v.idUsuario = ?`,
     [idUsuario],(error, resultados, fields) => {
       return error ? callback(error) : callback(null, resultados);
     }

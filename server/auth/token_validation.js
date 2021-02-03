@@ -3,7 +3,7 @@ const { verify } = require('jsonwebtoken');
 module.exports = { 
     checkToken: (req, res, next) => {
         let token = req.get("authorization");
-        // console.log(`token:[${token}]`);
+        console.log(`token:[${token}]`);
         if(token) {
             token = token.slice(7);
             verify(token, "qw1234", (err, decoded) =>{

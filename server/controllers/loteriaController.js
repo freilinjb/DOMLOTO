@@ -89,10 +89,10 @@ exports.registrarLoteria = (req, res) => {
 }
 
 exports.getTickets = (req, res) => {
-    console.log('tokenGGe: ',helper.getUserByToken(req.headers['authorization']));
+    // console.log('tokenGGe: ',helper.getUserByToken(req.headers['authorization']));
     const idUsuario = helper.getUserByToken(req.headers['authorization']);
 
-    loteria.getTickets(idUsuario, (err, resultados) => {
+    loteria.getTicketsResumen(idUsuario, (err, resultados) => {
         console.log('getTickets: ', resultados);
 
         if(err) {
@@ -109,6 +109,8 @@ exports.getTickets = (req, res) => {
         }
     });
 }
+
+
 
 exports.getJuegosDisponibles = (req, res) => {
     const idUsuario = helper.getUserByToken(req.headers['authorization']);

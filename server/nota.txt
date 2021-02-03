@@ -37,3 +37,7 @@ Registrar empleado
         }
     ]
 }
+
+#consultando los tickets
+
+router.get('/lottery/ticket/', checkToken, loteria.getTickets);
