@@ -6,17 +6,17 @@ const pool = createPool({
     database: 'domloto',
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: '1423',
     port: 3306,
     connectionLimit: 8,
     waitForConnections: true,
-    queueLimit: 0
+    queueLimit: 0,
 });
 
 exports.connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : '',
+    password : '1423',
     database : 'domloto',
     port: 3306,
     waitForConnections: true,
@@ -36,8 +36,3 @@ pool.on('connection', function(connection) {
         console.error(new Date(), 'MySQL close', err);
     });
 });
-
-
-// exports.hola = (hola, callback)
-// module.exports = pool;
-// module.exports = connection;

@@ -15,7 +15,6 @@ exports.ticket = (req, res) => {
         let ticket = [];
 
         if(resultado.length > 0) {
-            ticket.push({ticket: resultado[0].ticket,fecha: resultado[0].fecha, hora: resultado[0].hora});
             let ticketTemporal = [];
 
             resultado.forEach((value) => {
@@ -28,7 +27,9 @@ exports.ticket = (req, res) => {
                     estado: value.estado
                 });
             });
-            ticket.push({detalle: ticketTemporal});
+            ticket.push({ticket: resultado[0].ticket,fecha: resultado[0].fecha, hora: resultado[0].hora, detalle: ticketTemporal});
+
+            // ticket.push({detalle: ticketTemporal});
             ticketTemporal = [];
 
             console.log('ticket: ', ticket)
@@ -40,7 +41,7 @@ exports.ticket = (req, res) => {
         } else {
             return res.status(200).json({
                 success: 1,
-                data: ticket
+                data: ticket[0]
             });
         }
     });

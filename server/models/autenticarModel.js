@@ -39,6 +39,7 @@ exports.getUserByEmail = (usuario, callback) => {
         callback(error);
       }
     //   console.log("usuario: ", results);
+      
       return callback(null, results[0]);
     }
   );

@@ -40,13 +40,13 @@ exports.getUsuarios = (req, res) => {
   });
 };
 
-exports.login = (req, res) => {
+exports.login = (req, res, next) => {
   const body = req.body;
-  // console.log("body: ", body);
+  console.log("body: ", body);
   getUserByEmail(body.usuario, (err, results) => {
     // console.log('results: ', results.clave);
     if (err) {
-      console.log(err);
+      console.log('err: ', err);
     }
     if (!results) {
       return res.json({
