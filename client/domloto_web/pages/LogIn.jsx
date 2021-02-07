@@ -1,115 +1,158 @@
-import React, { useState, useContext, useEffect} from "react";
+import React, { useState, useContext, useEffect } from "react";
+import Router from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-import Layout from '../components/layout/Layout';
+import AuthContext from "../context/Auth/AuthContext";
+
+import Layout from "../components/layout/Layout";
 
 // document.body.classList.remove("HOLA MUNDO");
 
-
 const LogIn = () => {
-    const [usuario, setUsuario] = useState({
-        correo: '',
-        clave: ''
+  const router = useRouter();
+
+  const authContext = useContext(AuthContext);
+  const { iniciarSesion, autenticado, cargando } = authContext;
+
+  const [usuario, setUsuario] = useState({
+    correo: "",
+    clave: "",
+  });
+
+  if(autenticado === true) {
+    router.push("/");
+  }
+  const { correo, clave } = usuario;
+
+  const onChange = (e) => {
+    setUsuario({
+      ...usuario,
+      [e.target.name]: e.target.value,
     });
-    const { correo, clave } = usuario;
 
-    const onChange =e=> {
-        setUsuario({
-            ...usuario,
-            [e.target.name] : e.target.value
-        });
+    console.log("correoSign: ", correo);
+    console.log("claveSign: ", clave);
+  };
 
-        console.log('correo: ', correo);
-        console.log('clave: ', clave);
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (correo.trim() === "" || clave.trim() === "") {
+      console.log("debe completar todos los campos");
     }
 
+    iniciarSesion(correo, clave);
+  };
+
+  useEffect(() => {
+    if(autenticado === true) {
+      router.push("/");
+    }
+  }, [cargando]);
+
   return (
-      <Layout>
-    <div className="login-box">
-      <div className="login-logo">
-        <a href="../../index2.html">
-          <b>Admin</b>LTE
-        </a>
-      </div>
-      {/* <!-- /.login-logo --> */}
-      <div className="card">
-        <div className="card-body login-card-body">
-          <p className="login-box-msg">Sign in to start your session</p>
-
-          <form action="../../index3.html" method="post">
-            <div className="input-group mb-3">
-              <input
-                type="correo"
-                className="form-control"
-                placeholder="Email"
-                id="correo"
-                name="correo"
-                value={correo}
-                onChange={onChange}
-              />
-              <div className="input-group-append">
-                <div className="input-group-text">
-                  <span className="fas fa-envelope"></span>
-                </div>
-              </div>
-            </div>
-            <div className="input-group mb-3">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-                id="clave"
-                name="clave"
-                value={clave}
-                onChange={onChange}
-              />
-              <div className="input-group-append">
-                <div className="input-group-text">
-                  <span className="fas fa-lock"></span>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-8">
-                <div className="icheck-primary">
-                  <input type="checkbox" id="remember" />
-                  <label htmlFor="remember">Remember Me</label>
-                </div>
-              </div>
-              {/* <!-- /.col --> */}
-              <div className="col-4">
-                <button type="submit" className="btn btn-primary btn-block">
-                  Sign In
-                </button>
-              </div>
-              {/* <!-- /.col --> */}
-            </div>
-          </form>
-
-          <div className="social-auth-links text-center mb-3">
-            <p>- OR -</p>
-            <a href="#" className="btn btn-block btn-primary">
-              <i className="fab fa-facebook mr-2"></i> Sign in using Facebook
+    <Layout page="login">
+      <div className="login-box">
+        <div className="login-logo">
+          <Link href="/">
+            <a>
+              <b>DOM</b>LOTO
             </a>
-            <a href="#" className="btn btn-block btn-danger">
-              <i className="fab fa-google-plus mr-2"></i> Sign in using Google+
-            </a>
-          </div>
-          {/* <!-- /.social-auth-links --> */}
-
-          <p className="mb-1">
-            <a href="forgot-password.html">I forgot my password</a>
-          </p>
-          <p className="mb-0">
-            <a href="register.html" className="text-center">
-              Register a new membership
-            </a>
-          </p>
+          </Link>
         </div>
-        {/* <!-- /.login-card-body --> */}
-      </div>
-    </div>
-    </Layout>
+        {/* <!-- /.login-logo --> */}
+        <div className="card">
+          <div className="card-body login-card-body">
+            <p className="login-box-msg">Sign in to start your session</p>
 
+            <form method="post" onSubmit={onSubmit}>
+              <div className="input-group mb-3">
+                <input
+                  type="correo"
+                  className="form-control"
+                  placeholder="Email"
+                  id="correo"
+                  name="correo"
+                  value={correo}
+                  onChange={onChange}
+                />
+                <div className="input-group-append">
+                  <div className="input-group-text">
+                    <span className="fas fa-envelope"></span>
+                  </div>
+                </div>
+              </div>
+              <div className="input-group mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Password"
+                  id="clave"
+                  name="clave"
+                  value={clave}
+                  onChange={onChange}
+                />
+                <div className="input-group-append">
+                  <div className="input-group-text">
+                    <span className="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-8">
+                  <div className="icheck-primary">
+                    <input type="checkbox" id="remember" />
+                    <label htmlFor="remember">Remember Me</label>
+                  </div>
+                </div>
+                {/* <!-- /.col --> */}
+                <div className="col-4">
+                  <button type="submit" className="btn btn-primary btn-block">
+                  {cargando ? 
+                    (<>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Cargando...
+                    </>
+                    )
+                    :
+                    (
+                        <>
+                        Iniciar sesión
+                        </>
+                    )
+                  }
+                  </button>
+                </div>
+                {/* <!-- /.col --> */}
+              </div>
+            </form>
+
+            <div className="social-auth-links text-center mb-3">
+              <p>- OR -</p>
+              <a href="#" className="btn btn-block btn-primary">
+                <i className="fab fa-facebook mr-2"></i> Sign in using Facebook
+              </a>
+              <a href="#" className="btn btn-block btn-danger">
+                <i className="fab fa-google-plus mr-2"></i> Sign in using
+                Google+
+              </a>
+            </div>
+            {/* <!-- /.social-auth-links --> */}
+
+            <p className="mb-1">
+              <a href="forgot-password.html">I forgot my password</a>
+            </p>
+            <p className="mb-0">
+              <Link href="SignUp">
+                <a className="text-center">Register a new membership</a>
+              </Link>
+            </p>
+          </div>
+          {/* <!-- /.login-card-body --> */}
+        </div>
+      </div>
+    </Layout>
   );
 };
 

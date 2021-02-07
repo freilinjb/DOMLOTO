@@ -6,6 +6,7 @@ const removeBodyClass = className => document.body.classList.remove(className);
 export default function LayoutPrincipal(className) {
     useEffect(
         () => {
+            console.log('clasName: ', className);
             // Set up
             className instanceof Array ? className.map(addBodyClass) : addBodyClass(className);
 
