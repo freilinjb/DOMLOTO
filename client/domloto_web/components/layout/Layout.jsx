@@ -1,15 +1,27 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useContext, useEffect } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import lscache from "lscache";
 
 import Header from "./Header";
 import Navbar from "./Navbar";
 import Aside from "./Aside";
 import Footer from "./Footer";
 import Breadcrumb from "./Breadcrumb";
-
 import LayoutPrincipal from "./LayoutPrincipal";
 
+import AuthContext from "../../context/Auth/AuthContext";
+
+
+
 const Layout = (props) => {
+  const router = useRouter();
+  const authContext = useContext(AuthContext);
+
+  const [cargandoLayout, setCargandoLayout] = useState(true)
+
+const { iniciarSesion, usuarioAutenticado, autenticado, cargando, token } = authContext;
+
   // const classBody = "hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed";
   let classBody = null;
   // console.log('body: ', classBody.split(' '));
@@ -22,16 +34,60 @@ const Layout = (props) => {
       break;
 
     default:
-      LayoutPrincipal(['hold-transition','sidebar-mini','layout-fixed','layout-navbar-fixed','layout-footer-fixed']);
+      LayoutPrincipal(['sidebar-mini', 'layout-navbar-fixed', 'layout-footer-fixed']);
       // classBody = "hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed";
       break;
   }
-  console.log("hola: ", classBody);
-  console.log("page: ", props.page);
 
   
+  // useEffect(() => {
+  //   if(token && autenticado === null) {
+  //     usuarioAutenticado();
+  //     console.log('entro');
+  //   } else if(autenticado === null) {
+  //     router.push("/LogIn");
+  //   }
+
+  //   if(cargando === false) {
+  //     setCargandoLayout(false);
+  //   }
+
+  //   // setCargando(false);
+
+  // },[]);
+  // console.log("hola: ", classBody);
+  // console.log("page: ", props.page);
+
+  // if(token !== null){
+  //   usuarioAutenticado();
+  // }
+
+  // useEffect(() => {
+  //   if(token != null && autenticado === null) {
+  //     usuarioAutenticado();
+  //   }
+
+  //   else if(cargando === false) {
+  //     router.push("LogIn");
+  //     console.log('1');
+  //   }
+
+  //   console.log('1');
+
+  // },[]);
+
+  // useEffect(() => {
+  //   if(cargando === false && autenticado == null) {
+  //     router.push("LogIn");
+  //   }
+  // },[]);
+
+  // if(cargando === false && autenticado == null) {
+  //   router.push("LogIn");
+  // }
   // hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed
   // console.log('body:', Component);
+  console.log('autenticado:' , autenticado);
   return (
     <>
       {/* <Header /> */}
@@ -61,7 +117,7 @@ const Layout = (props) => {
         <script src="/static/index.js"></script>
       </Head>
 
-      {props.page !== "login" && props.page !== "register" ? (
+      {autenticado === true ? (
         <>
           <div className="wrapper">
             <Navbar />
@@ -72,46 +128,43 @@ const Layout = (props) => {
               <Breadcrumb />
               {props.children}
             </div>
-          </div>
-          {/* <!-- Control Sidebar --> */}
+               {/* <!-- Control Sidebar --> */}
           <aside className="control-sidebar control-sidebar-dark">
             {/* <!-- Control sidebar content goes here --> */}
           </aside>
           {/* <!-- /.control-sidebar --> */}
           <Footer />
+          </div>
+       
         </>
       ) : (
         props.children
       )}
 
-      {/* SCRIPT */}
-      {/* <!-- ./wrapper -->
+{/* <!-- REQUIRED SCRIPTS --> */}
+{/* <!-- jQuery --> */}
+<script src="static/plugins/jquery/jquery.min.js"></script>
+{/* <!-- Bootstrap --> */}
+<script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+{/* <!-- overlayScrollbars --> */}
+<script src="static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+{/* <!-- AdminLTE App --> */}
+<script src="static/dist/js/adminlte.js"></script>
 
-          <!-- REQUIRED SCRIPTS -->
-          <!-- jQuery --> */}
-      <script src="static/plugins/jquery/jquery.min.js"></script>
-      {/* <!-- Bootstrap --> */}
-      <script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-      {/* <!-- overlayScrollbars --> */}
-      <script src="static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-      {/* <!-- AdminLTE App --> */}
-      <script src="static/dist/js/adminlte.js"></script>
+{/* <!-- OPTIONAL SCRIPTS --> */}
+<script src="static/dist/js/demo.js"></script>
 
-      {/* <!-- OPTIONAL SCRIPTS --> */}
-      {/* <script src="static/dist/js/demo.js"></script> */}
+{/* <!-- PAGE PLUGINS --> */}
+{/* <!-- jQuery Mapael --> */}
+<script src="static/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+<script src="static/plugins/raphael/raphael.min.js"></script>
+<script src="static/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="static/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+{/* <!-- ChartJS --> */}
+<script src="static/plugins/chart.js/Chart.min.js"></script>
 
-      {/* <!-- PAGE PLUGINS --> */}
-      {/* <!-- jQuery Mapael --> */}
-      <script src="static/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-      <script src="static/plugins/raphael/raphael.min.js"></script>
-      <script src="static/plugins/jquery-mapael/jquery.mapael.min.js"></script>
-      <script src="static/plugins/jquery-mapael/maps/usa_states.min.js"></script>
-      {/* <!-- ChartJS --> */}
-      <script src="static/plugins/chart.js/Chart.min.js"></script>
-
-      {/* <!-- PAGE SCRIPTS --> */}
-      {/* <script src="static/dist/js/pages/dashboard.js"></script> */}
-      {/* END SCRIPT */}
+{/* <!-- PAGE SCRIPTS --> */}
+{/* <script src="static//dist/js/pages/dashboard2.js"></script> */}
     </>
   );
 };

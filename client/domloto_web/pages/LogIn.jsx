@@ -13,13 +13,16 @@ const LogIn = () => {
   const router = useRouter();
 
   const authContext = useContext(AuthContext);
-  const { iniciarSesion, autenticado, cargando } = authContext;
+  const { iniciarSesion, autenticado, cargando, token } = authContext;
 
   const [usuario, setUsuario] = useState({
     correo: "",
     clave: "",
   });
+  const [cargandoLogin, setCargandoLogin] = useState(true);
 
+
+  console.log('cargando/: ', cargando);
   if(autenticado === true) {
     router.push("/");
   }
@@ -44,14 +47,19 @@ const LogIn = () => {
 
     iniciarSesion(correo, clave);
   };
-
+  if(autenticado === true) {
+    router.replace("/");
+  } 
   useEffect(() => {
-    if(autenticado === true) {
-      router.push("/");
+    if(cargando == false && token === null) {
+      setCargandoLogin(false);
     }
-  }, [cargando]);
+  }, []);
 
   return (
+
+    <>
+    {cargandoLogin === false && (
     <Layout page="login">
       <div className="login-box">
         <div className="login-logo">
@@ -100,16 +108,16 @@ const LogIn = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="col-8">
+                {/* <div className="col-8">
                   <div className="icheck-primary">
                     <input type="checkbox" id="remember" />
                     <label htmlFor="remember">Remember Me</label>
                   </div>
-                </div>
+                </div> */}
                 {/* <!-- /.col --> */}
-                <div className="col-4">
+                <div className="col-12">
                   <button type="submit" className="btn btn-primary btn-block">
-                  {cargando ? 
+                  {cargando === true ? 
                     (<>
                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Cargando...
@@ -153,6 +161,9 @@ const LogIn = () => {
         </div>
       </div>
     </Layout>
+    )}
+
+    </>
   );
 };
 
