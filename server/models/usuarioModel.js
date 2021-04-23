@@ -1,4 +1,3 @@
-// const pool = require('../config/database');
 const db = require('../config/database');
 
 // const { verify } = require('jsonwebtoken');
@@ -41,7 +40,3 @@ exports.getEmpleados = (idUsuario, callback) => {
 exports.sexo = (callback) => {
     console.log('hola');
 }
-
-// exports.getLoterias = (callback) => {
-//     pool.query();
-// }

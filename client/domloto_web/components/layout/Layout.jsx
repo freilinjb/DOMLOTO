@@ -39,54 +39,6 @@ const { iniciarSesion, usuarioAutenticado, autenticado, cargando, token } = auth
       break;
   }
 
-  
-  // useEffect(() => {
-  //   if(token && autenticado === null) {
-  //     usuarioAutenticado();
-  //     console.log('entro');
-  //   } else if(autenticado === null) {
-  //     router.push("/LogIn");
-  //   }
-
-  //   if(cargando === false) {
-  //     setCargandoLayout(false);
-  //   }
-
-  //   // setCargando(false);
-
-  // },[]);
-  // console.log("hola: ", classBody);
-  // console.log("page: ", props.page);
-
-  // if(token !== null){
-  //   usuarioAutenticado();
-  // }
-
-  // useEffect(() => {
-  //   if(token != null && autenticado === null) {
-  //     usuarioAutenticado();
-  //   }
-
-  //   else if(cargando === false) {
-  //     router.push("LogIn");
-  //     console.log('1');
-  //   }
-
-  //   console.log('1');
-
-  // },[]);
-
-  // useEffect(() => {
-  //   if(cargando === false && autenticado == null) {
-  //     router.push("LogIn");
-  //   }
-  // },[]);
-
-  // if(cargando === false && autenticado == null) {
-  //   router.push("LogIn");
-  // }
-  // hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed
-  // console.log('body:', Component);
   console.log('autenticado:' , autenticado);
   return (
     <>
@@ -125,7 +77,7 @@ const { iniciarSesion, usuarioAutenticado, autenticado, cargando, token } = auth
 
             {/* <!-- Content Wrapper. Contains page content --> */}
             <div className="content-wrapper">
-              <Breadcrumb />
+              {/* <Breadcrumb /> */}
               {props.children}
             </div>
                {/* <!-- Control Sidebar --> */}

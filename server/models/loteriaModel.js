@@ -1,4 +1,4 @@
-const { pool, connection } = require("../config/database");
+const { connection } = require("../config/database");
 const db = require("../config/database");
 
 exports.getLoterias = async () => {

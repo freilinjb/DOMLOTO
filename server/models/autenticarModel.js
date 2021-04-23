@@ -1,6 +1,5 @@
 const { checkToken } = require("../auth/token_validation");
 const { genSaltSync, hashSync } = require("bcrypt");
-// const pool = require("../config/database");
 const db = require("../config/database");
 
 exports.getUsuarios = (callback) => {

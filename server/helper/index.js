@@ -1,7 +1,5 @@
 
 const { verify } = require('jsonwebtoken');
-const pool = require('../config/database');
-
 
 exports.getUserByToken = function (token) {
     // let token = req.headers['authorization'];

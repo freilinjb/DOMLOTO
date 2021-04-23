@@ -14,11 +14,6 @@ export default function Home() {
   const authContext = useContext(AuthContext);
   const { iniciarSesion, autenticado, usuarioAutenticado, token, cargando } = authContext;
 
-  // useEffect(() => {
-  //   if(autenticado === null) {
-  //   }
-  // }, []);
-
   useEffect(() => {
     if(token && autenticado === null) {
       usuarioAutenticado();
@@ -38,10 +33,6 @@ export default function Home() {
 
   },[]);
 
-  // const authContext = useContext(AuthContext);
-  // const { iniciarSesion, usuarioAutenticado, autenticado, cargando, token } = authContext;
-
-  // console.log('token2: ', lscache.get('token'));
   return (
     <>
     {cargandoPage ? (
@@ -49,11 +40,9 @@ export default function Home() {
         ...Cargando
       </div>
     ) : (
-
       <Layout>
-      <h1>Mundo</h1>
-      </Layout>
 
+      </Layout>
     )}
 
     </>

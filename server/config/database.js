@@ -23,7 +23,6 @@ exports.connection = mysql.createConnection({
     queueLimit: 0
   });
 
-// console.log('pool: ', pool);
 // Attempt to catch disconnects 
 pool.on('connection', function(connection) {
     console.log('Connection established');

@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const useRouter = require('./routers/usuario.route');
 const router = require('./routers/index');
 
 
@@ -18,7 +17,6 @@ app.use(bodyParser.json());
 
 
 //Router
-// app.use("/api/usuario", useRouter);
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
