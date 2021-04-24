@@ -1,5 +1,4 @@
 const ticketModel = require('../models/ticketModel');
-const  { body, validationResult } = require('express-validator');
 
 const helpers = require('../helper');
 

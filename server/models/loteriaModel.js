@@ -29,6 +29,8 @@ exports.getJuegosDisponibles = async (idUsuario, callback) => {
       return error ? callback(error) : callback(null, resultados);
     }
   );
+
+  
 };
 
 exports.getTickets = async (idUsuario, callback) => {

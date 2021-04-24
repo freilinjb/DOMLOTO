@@ -1,10 +1,19 @@
-const {getUsuarios,crearUsuario,getUserByEmail} = require("../models/autenticarModel");
+
+const {
+  getUsuarios,
+  crearUsuario,
+  getUserByEmail,
+} = require("../models/autenticarModel");
 const aut = require("../models/autenticarModel");
-const helpers = require('../helper');
+const helpers = require("../helper");
 
 const { verify } = require("jsonwebtoken");
 const { compareSync, hashSync, genSaltSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
+
+
+const { validate, ValidationError, Joi } = require('express-validator');
+
 
 exports.registrarUsuario = (req, res) => {
   const body = req.body;
@@ -41,12 +50,13 @@ exports.getUsuarios = (req, res) => {
 };
 
 exports.login = (req, res, next) => {
-  const body = req.body;
-  console.log("body: ", body);
+
+  const { body } = req;
+
   getUserByEmail(body.usuario, (err, results) => {
     // console.log('results: ', results.clave);
     if (err) {
-      console.log('err: ', err);
+      console.log("err: ", err);
     }
     if (!results) {
       return res.json({
@@ -83,8 +93,11 @@ exports.login = (req, res, next) => {
 };
 
 exports.getUsuarioAutenticado = (req, res) => {
-  console.log("authorization: ",req.headers["authorization"]);
-  console.log('helpers: ', helpers.getUserByToken(req.headers["authorization"]));
+  console.log("authorization: ", req.headers["authorization"]);
+  console.log(
+    "helpers: ",
+    helpers.getUserByToken(req.headers["authorization"])
+  );
   // console.log("res: ",res);
 
   if (req.idUsuario !== null) {
@@ -106,7 +119,6 @@ exports.getUsuarioAutenticado = (req, res) => {
         data: resultado,
       });
     });
-
   } else {
     return res.status(500).json({
       success: 0,
