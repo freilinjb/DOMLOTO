@@ -11,11 +11,7 @@ const { verify } = require("jsonwebtoken");
 const { compareSync, hashSync, genSaltSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 
-
-const { validate, ValidationError, Joi } = require('express-validator');
-
-
-exports.registrarUsuario = (req, res) => {
+exports.registrarUsuario = async  (req, res) => {
   const body = req.body;
   const salt = genSaltSync(10);
   body.clave = hashSync(body.clave, salt);
@@ -49,7 +45,7 @@ exports.getUsuarios = (req, res) => {
   });
 };
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
 
   const { body } = req;
 
@@ -69,7 +65,7 @@ exports.login = (req, res, next) => {
     if (result) {
       results.password = undefined;
       const jsontoken = sign({ result: results }, "qw1234", {
-        expiresIn: "1h",
+        expiresIn: "8h",
       });
       const { idUsuario, usuario } = results;
       return res.json({
@@ -92,8 +88,8 @@ exports.login = (req, res, next) => {
   });
 };
 
-exports.getUsuarioAutenticado = (req, res) => {
-  console.log("authorization: ", req.headers["authorization"]);
+exports.getUsuarioAutenticado = async  (req, res) => {
+  // console.log("authorization: ", req.headers["authorization"]);
   console.log(
     "helpers: ",
     helpers.getUserByToken(req.headers["authorization"])

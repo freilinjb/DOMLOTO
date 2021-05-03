@@ -72,7 +72,7 @@ exports.getEmail = async (correo, callback) => {
 exports.getUsuarioAutenticado = async (idUsuario, callback) => {
 
   await db.connection.query(
-    `SELECT * FROM usuario_v uv WHERE uv.idUsuario = ?`,
+    `SELECT uv.idUsuario, uv.usuario, uv.tipoUsuario, uv.idMaestro, uv.nombre,uv.apellido, uv.sexo,uv.correo, uv.telefono FROM usuario_v uv WHERE uv.idUsuario = ?`,
     [idUsuario],
     (error, result, fields) => {
       return error ? callback(error) : callback(null, result[0]);

@@ -12,15 +12,19 @@ import LayoutPrincipal from "./LayoutPrincipal";
 
 import AuthContext from "../../context/Auth/AuthContext";
 
-
-
 const Layout = (props) => {
   const router = useRouter();
   const authContext = useContext(AuthContext);
 
-  const [cargandoLayout, setCargandoLayout] = useState(true)
+  const [cargandoLayout, setCargandoLayout] = useState(false);
 
-const { iniciarSesion, usuarioAutenticado, autenticado, cargando, token } = authContext;
+  const {
+    iniciarSesion,
+    usuarioAutenticado,
+    autenticado,
+    cargando,
+    token,
+  } = authContext;
 
   // const classBody = "hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed";
   let classBody = null;
@@ -34,12 +38,16 @@ const { iniciarSesion, usuarioAutenticado, autenticado, cargando, token } = auth
       break;
 
     default:
-      LayoutPrincipal(['sidebar-mini', 'layout-navbar-fixed', 'layout-footer-fixed']);
+      LayoutPrincipal([
+        "sidebar-mini",
+        "layout-navbar-fixed",
+        "layout-footer-fixed",
+      ]);
       // classBody = "hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed";
       break;
   }
 
-  console.log('autenticado:' , autenticado);
+  console.log("autenticado:", autenticado);
   return (
     <>
       {/* <Header /> */}
@@ -80,43 +88,42 @@ const { iniciarSesion, usuarioAutenticado, autenticado, cargando, token } = auth
               {/* <Breadcrumb /> */}
               {props.children}
             </div>
-               {/* <!-- Control Sidebar --> */}
-          <aside className="control-sidebar control-sidebar-dark">
-            {/* <!-- Control sidebar content goes here --> */}
-          </aside>
-          {/* <!-- /.control-sidebar --> */}
-          <Footer />
+            {/* <!-- Control Sidebar --> */}
+            <aside className="control-sidebar control-sidebar-dark">
+              {/* <!-- Control sidebar content goes here --> */}
+            </aside>
+            {/* <!-- /.control-sidebar --> */}
+            <Footer />
           </div>
-       
         </>
       ) : (
         props.children
       )}
 
-{/* <!-- REQUIRED SCRIPTS --> */}
-{/* <!-- jQuery --> */}
-<script src="static/plugins/jquery/jquery.min.js"></script>
-{/* <!-- Bootstrap --> */}
-<script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-{/* <!-- overlayScrollbars --> */}
-<script src="static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-{/* <!-- AdminLTE App --> */}
-<script src="static/dist/js/adminlte.js"></script>
+      {/* <!-- REQUIRED SCRIPTS --> */}
+      {/* <!-- jQuery --> */}
+      <script src="static/plugins/jquery/jquery.min.js"></script>
+      {/* <!-- Bootstrap --> */}
+      <script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+      {/* <!-- overlayScrollbars --> */}
+      <script src="static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+      {/* <!-- AdminLTE App --> */}
+      <script src="static/dist/js/adminlte.js"></script>
 
-{/* <!-- OPTIONAL SCRIPTS --> */}
-<script src="static/dist/js/demo.js"></script>
+      {/* <!-- OPTIONAL SCRIPTS --> */}
+      <script src="static/dist/js/demo.js"></script>
 
-{/* <!-- PAGE PLUGINS --> */}
-{/* <!-- jQuery Mapael --> */}
-<script src="static/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-<script src="static/plugins/raphael/raphael.min.js"></script>
-<script src="static/plugins/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="static/plugins/jquery-mapael/maps/usa_states.min.js"></script>
-{/* <!-- ChartJS --> */}
-<script src="static/plugins/chart.js/Chart.min.js"></script>
+      {/* <!-- PAGE PLUGINS --> */}
+      {/* <!-- jQuery Mapael --> */}
+      <script src="static/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+      <script src="static/plugins/raphael/raphael.min.js"></script>
+      <script src="static/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+      <script src="static/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+      {/* <!-- ChartJS --> */}
+      <script src="static/plugins/chart.js/Chart.min.js"></script>
 
-{/* <!-- PAGE SCRIPTS --> */}
-{/* <script src="static//dist/js/pages/dashboard2.js"></script> */}
+      {/* <!-- PAGE SCRIPTS --> */}
+      {/* <script src="static//dist/js/pages/dashboard2.js"></script> */}
     </>
   );
 };

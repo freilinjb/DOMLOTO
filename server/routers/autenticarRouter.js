@@ -13,7 +13,7 @@ router.post(
     errorCode: 1,
   }),
   // password must be at least 5 chars long
-  body("clave").isLength({ min: 34 }).withMessage({
+  body("clave").isLength({ min: 3 }).withMessage({
     message: "La clave debe ser mayor a eso",
     errorCode: 1,
   }).notEmpty().withMessage("Debe espesificar la contraseña"),

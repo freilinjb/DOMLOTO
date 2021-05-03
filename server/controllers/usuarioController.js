@@ -45,6 +45,8 @@ exports.getEmpleados = (req, res) => {
             });
         }
 
+        resultado.token = token;
+
         return res.status(200).json({
             success: 1,
             data: resultado,
